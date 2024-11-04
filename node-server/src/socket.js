@@ -44,12 +44,12 @@ function initSocket(server) {
   });
 }
 
-function openGame(waitingPlayer, req, gameSessionId){
+function matchFinder(waitingPlayer, req, gameSessionId){
   io.to(waitingPlayer.socketId).emit('matchFound', { opponentId: req.body.id, gameSessionId });
   io.to(req.body.socketId).emit('matchFound', { opponentId: waitingPlayer.id, gameSessionId });
 }
 
 module.exports = {
   initSocket,
-  openGame
+  matchFinder
 };
