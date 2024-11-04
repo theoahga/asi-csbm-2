@@ -1,8 +1,10 @@
 const socketIo = require('socket.io');
 const { addUser, removeUser, getUserSocketId } = require('./connectedUsers');
 
+let io = null;
+
 function initSocket(server) {
-  const io = socketIo(server, {
+  io = socketIo(server, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
@@ -42,4 +44,12 @@ function initSocket(server) {
   });
 }
 
-module.exports = initSocket;
+function openGame(waitingPlayer, req, gameSessionId){
+  io.to(waitingPlayer.socketId).emit('matchFound', { opponentId: req.body.id, gameSessionId });
+  io.to(req.body.socketId).emit('matchFound', { opponentId: waitingPlayer.id, gameSessionId });
+}
+
+module.exports = {
+  initSocket,
+  openGame
+};
