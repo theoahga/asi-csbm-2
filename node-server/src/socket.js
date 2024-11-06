@@ -37,6 +37,7 @@ function initSocket(server) {
 
       socket.on("disconnect", () => {
         removeUser(user_id);
+        game.removeIfPlayerIsAloneInGames(user_id)
         console.log(`User disconnected: ${user_id}`);
       });
     } else {

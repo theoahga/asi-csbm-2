@@ -1,10 +1,12 @@
 const {handleUserJoin,sendMessage} = require("./socket");
-const { addGame, removeGame, getGameById, getNextGameID } = require('./games.js');
+const { getNextGameID } = require('./games');
+const { getUserSocketId } = require('./connectedUsers');
 let waitingPlayer = null;
 
 function handleJoinPlayer(userId){
     console.log(`User ${userId} is trying to find a game`);
-    if(waitingPlayer){
+
+    if(waitingPlayer && getUserSocketId(waitingPlayer.id)){
         let message = handleWhenPlayerWaiting(userId);
         waitingPlayer = null;
         return message;

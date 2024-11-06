@@ -13,6 +13,33 @@ function getGamePlayersByGameId(gameId) {
     return currentGame.get(gameId);
 }
 
+function getGamesByPlayerId(playerId) {
+    let gameIds = []
+    currentGame.forEach((players,gameId) => {
+        if(players.includes(playerId)){
+            gameIds.push(gameId);
+        }
+    })
+    return gameIds;
+}
+
+function isPlayerIdAloneInGame(playerId,gameId){
+    let gamePlayers = currentGame.get(gameId);
+    if(gamePlayers.includes(playerId) && gamePlayers.length === 1){
+        return true;
+    }
+    return false;
+}
+
+function removeIfPlayerIsAloneInGames(playerId){
+   let gameIds = getGamesByPlayerId(playerId);
+   gameIds.forEach(gameId => {
+       if(isPlayerIdAloneInGame(playerId,gameId)){
+           removeGame(gameId);
+       }
+   })
+}
+
 function addPlayerToGame(gameId, playerId) {
     let gamePlayers = getGamePlayersByGameId(gameId);
     gamePlayers.push(playerId);
@@ -28,5 +55,6 @@ module.exports = {
     removeGame,
     getGamePlayersByGameId,
     addPlayerToGame,
-    getNextGameID
+    getNextGameID,
+    removeIfPlayerIsAloneInGames
 };
