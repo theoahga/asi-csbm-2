@@ -50,14 +50,21 @@ function handleUserJoin(userId, gameRoomId){
   let socket = io.sockets.sockets.get(getUserSocketId(userId));
   if(!game.getGamePlayersByGameId(gameRoomId)){
     game.addGame(gameRoomId,userId);
+    console.log(`Room ${gameRoomId} created by ${userId}`);
   }else {
     game.addPlayerToGame(gameRoomId,userId);
   }
   socket.join(gameRoomId)
-  console.log(`Salle ${gameRoomId} créée par ${userId}`);
+  socket.on("roommessage", (object) => {
+    sendMessage(gameRoomId,"roommessage",object);
+  })
 }
 
+function sendMessage(socketId,eventId,message){
+  io.to(socketId).emit(eventId,message);
+}
 module.exports = {
   initSocket,
-  handleUserJoin
+  handleUserJoin,
+  sendMessage
 };
