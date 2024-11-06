@@ -1,17 +1,27 @@
-const {matchFinder} = require("./socket");
+const {matchFinder, matchFound, handleUserJoin} = require("./socket");
+const { addGame, removeGame, getGameById, getNextGameID } = require('./games.js');
 let waitingPlayer = null;
 
-function queueManager(req,res){
+function handleJoinPlayer(userId){
+    console.log(`L'utilisateur ${userId} tente de se connecter`);
     if(waitingPlayer){
-        const gameSessionId = `${waitingPlayer.id}-${req.body.id}`;
-        res.send({message: `Match found : ${gameSessionId}`});
-        matchFinder(waitingPlayer,req,gameSessionId);
-
+        let message = handleWhenPlayerWaiting(userId);
         waitingPlayer = null;
+        return message;
     }else{
-        waitingPlayer = { id: req.body.id, socketId: req.body.socketId };
-        res.send({ message: 'Waiting for an opponent...' });
+        return handleWhenNoPlayer(userId)
     }
 }
 
-module.exports = {queueManager};
+function handleWhenPlayerWaiting(userID){
+    handleUserJoin(userID,waitingPlayer.gameId);
+    return {message: `Match found : ${waitingPlayer.gameId}`};
+}
+
+function handleWhenNoPlayer(userID){
+    waitingPlayer = { id: userID, gameId: getNextGameID() };
+    handleUserJoin(userID,waitingPlayer.gameId)
+    return { message: 'Waiting for an opponent...' };
+}
+
+module.exports = {handleJoinPlayer};

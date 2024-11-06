@@ -1,5 +1,6 @@
 const socketIo = require('socket.io');
 const { addUser, removeUser, getUserSocketId } = require('./connectedUsers');
+const game = require('./games');
 
 let io = null;
 
@@ -18,17 +19,18 @@ function initSocket(server) {
       addUser(user_id, socket.id);
       console.log(`User connected: ${user_id}`);
 
-      socket.on("receivemessage", ({ recipient_id, message }) => {
-        console.log(`Message from ${user_id} to ${recipient_id}: ${message}`);
+      socket.on("receivemessage", (json) => {
+        let message = JSON.parse(json);
+        console.log(`Message from ${user_id} to ${message.recipient_id}: ${message.message}`);
 
-        if (recipient_id === "all") {
+        if (message.recipient_id === "all") {
           io.emit("sendmessage", { sender_id: user_id, message });
         } else {
-          const recipientSocketId = getUserSocketId(recipient_id);
+          const recipientSocketId = getUserSocketId(message.recipient_id);
           if (recipientSocketId) {
-            io.to(recipientSocketId).emit("sendmessage", { sender_id: user_id, message });
+            io.to(recipientSocketId).emit("sendmessage", JSON.stringify( { sender_id: user_id, message }));
           } else {
-            console.log(`Recipient ${recipient_id} not connected.`);
+            console.log(`Recipient ${message.recipient_id} not connected.`);
           }
         }
       });
@@ -44,12 +46,18 @@ function initSocket(server) {
   });
 }
 
-function matchFinder(waitingPlayer, req, gameSessionId){
-  io.to(waitingPlayer.socketId).emit('matchFound', { opponentId: req.body.id, gameSessionId });
-  io.to(req.body.socketId).emit('matchFound', { opponentId: waitingPlayer.id, gameSessionId });
+function handleUserJoin(userId, gameRoomId){
+  let socket = io.sockets.sockets.get(getUserSocketId(userId));
+  if(!game.getGamePlayersByGameId(gameRoomId)){
+    game.addGame(gameRoomId,userId);
+  }else {
+    game.addPlayerToGame(gameRoomId,userId);
+  }
+  socket.join(gameRoomId)
+  console.log(`Salle ${gameRoomId} créée par ${userId}`);
 }
 
 module.exports = {
   initSocket,
-  matchFinder
+  handleUserJoin
 };

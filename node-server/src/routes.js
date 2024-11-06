@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/api/matchmaking/join', (req, res) => {
-  queue.queueManager(req, res);
+  res.send(queue.handleJoinPlayer(req.body.id));
 });
 
 module.exports = router;
