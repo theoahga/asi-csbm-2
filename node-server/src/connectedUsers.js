@@ -12,8 +12,13 @@ function getUserSocketId(user_id) {
   return connectedUsers.get(user_id);
 }
 
+function getAllConnectedUserIds() {
+  return Array.from(connectedUsers, ([key]) => ( key ));
+}
+
 module.exports = {
   addUser,
   removeUser,
   getUserSocketId,
+  getAllConnectedUserIds
 };
