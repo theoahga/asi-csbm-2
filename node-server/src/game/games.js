@@ -41,9 +41,9 @@ function removeIfPlayerIsAloneInGames(playerId){
 }
 
 function addPlayerToGame(gameId, playerId) {
-    let gamePlayers = getGamePlayersByGameId(gameId);
-    gamePlayers.push(playerId);
-    currentGame.set(gameId, gamePlayers);
+    let game = getGameByGameId(gameId);
+    game.players.push({playerId : playerId});
+    currentGame.set(gameId, game);
 }
 
 function getNextGameID(){

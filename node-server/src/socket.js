@@ -1,6 +1,6 @@
 const socketIo = require('socket.io');
 const { addUser, removeUser, getUserSocketId } = require('./connectedUsers');
-const game = require('./games');
+const game = require('./game/games');
 
 let io = null;
 
@@ -47,18 +47,8 @@ function initSocket(server) {
   });
 }
 
-function handleUserJoin(userId, gameRoomId){
-  let socket = io.sockets.sockets.get(getUserSocketId(userId));
-  if(!game.getGamePlayersByGameId(gameRoomId)){
-    game.addGame(gameRoomId,userId);
-    console.log(`Room ${gameRoomId} created by ${userId}`);
-  }else {
-    game.addPlayerToGame(gameRoomId,userId);
-  }
-  socket.join(gameRoomId)
-  socket.on("roommessage", (object) => {
-    sendMessage(gameRoomId,"roommessage",object);
-  })
+function getSocketUser(userId){
+  return io.sockets.sockets.get(getUserSocketId(userId));
 }
 
 function sendMessage(socketId,eventId,message){
@@ -66,6 +56,6 @@ function sendMessage(socketId,eventId,message){
 }
 module.exports = {
   initSocket,
-  handleUserJoin,
+  getSocketUser,
   sendMessage
 };
