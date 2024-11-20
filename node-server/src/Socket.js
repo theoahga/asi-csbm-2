@@ -1,6 +1,6 @@
 const socketIo = require('socket.io');
-const { addUser, removeUser, getUserSocketId } = require('./connectedUsers');
-const game = require('./game/games');
+const { addUser, removeUser, getUserSocketId } = require('./user/ConnectedUsers');
+const game = require('./game/Games');
 
 let io = null;
 

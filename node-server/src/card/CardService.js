@@ -1,5 +1,4 @@
-const monoService = require("../monoService");
-const {getGameByPlayerId} = require("../game/games");
+const monoService = require("../mono/MonoService");
 
 function checkAndGetCards(cardIds,userId){
     let cards = []
