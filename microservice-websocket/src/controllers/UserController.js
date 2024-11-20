@@ -1,4 +1,4 @@
-const socketService = require('../services/SocketService');
+import socketService from '../services/SocketService.js';
 
 class UserController {
     static getConnectedUsers(req, res) {
@@ -34,4 +34,4 @@ class UserController {
     }
 }
 
-module.exports = UserController;
+export default UserController;

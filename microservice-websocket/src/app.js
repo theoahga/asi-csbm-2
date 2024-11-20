@@ -1,10 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
-const socketService = require('./services/SocketService');
+import dotenv from 'dotenv';
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import bodyParser from 'body-parser';
+import userRoutes from './routes/userRoutes.js';
+import socketService from './services/SocketService.js';
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);

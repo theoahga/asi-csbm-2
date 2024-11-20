@@ -73,4 +73,4 @@ class SocketService {
     }
 }
 
-module.exports = new SocketService();
+export default new SocketService();
