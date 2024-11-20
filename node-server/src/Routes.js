@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const gameMaster = require('./game/gameMaster.js');
+const GameManager = require('./game/GameManager.js');
+const NetworkManager = require("./user/ConnectedUsers");
 
 router.get('/', (req, res) => {
   res.send('Chat Server is running');
 });
 
 router.post('/api/matchmaking/join', (req, res) => {
-  res.send(gameMaster.joinPlayer(req.body.id));
+  res.send(GameManager.joinPlayer(req.body.id));
 });
 
 router.get('/network/connectedusers', (req, res) => {
-  res.send(connectedUsers.getAllConnectedUserIds());
+  res.send(NetworkManager.getAllConnectedUserIds());
 })
 
 module.exports = router;
