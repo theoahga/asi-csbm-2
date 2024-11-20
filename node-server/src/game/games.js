@@ -1,34 +1,52 @@
+const {defaults} = require("axios");
 const currentGame = new Map();
 
+
+const defaultSteps = {
+    card_choice : []
+}
+
 function addGame(gameId,playerId) {
-    let players = [playerId]
-    currentGame.set(gameId, players);
+    let game = {
+        gameId: gameId,
+        steps: defaultSteps,
+        players: [
+            { playerId: playerId }
+        ]
+    }
+    currentGame.set(gameId, game);
 }
 
 function removeGame(gameId) {
     currentGame.delete(gameId);
 }
 
-function getGamePlayersByGameId(gameId) {
+function getGameByGameId(gameId) {
     return currentGame.get(gameId);
 }
 
-function getGamesByPlayerId(playerId) {
-    let gameIds = []
-    currentGame.forEach((players,gameId) => {
-        if(players.includes(playerId)){
-            gameIds.push(gameId);
+function getGameByPlayerId(playerId) {
+    const games = [];
+    currentGame.forEach((game, gameId) => {
+        const playerExists = game.players.some(player => player.playerId === playerId);
+        if (playerExists) {
+            games.push(game);
         }
-    })
-    return gameIds;
+    });
+
+    if (games.length === 0) {
+        throw new Error("Player isn't in a game");
+    }
+    if (games.length > 1){
+       throw new Error("Player is in few games... Something is wrong!")
+    }
+
+    return games[0];
 }
 
 function isPlayerIdAloneInGame(playerId,gameId){
-    let gamePlayers = currentGame.get(gameId);
-    if(gamePlayers.includes(playerId) && gamePlayers.length === 1){
-        return true;
-    }
-    return false;
+    let game = currentGame.get(gameId);
+    return !!(game.players.some(player => player.playerId === playerId) && game.players.length === 1);
 }
 
 function removeIfPlayerIsAloneInGames(playerId){
@@ -50,11 +68,21 @@ function getNextGameID(){
     return "game-" + (currentGame.size + 1);
 }
 
+function addCardsToPlayer(playerId, cards){
+    let game = getGamesByPlayerId(playerId);
+    if(game.players.some(player => player.playerId === playerId)) {
+        let player = game.players.find(player => player.playerId === playerId);
+        player.cards = cards;
+    }
+}
+
 module.exports = {
     addGame,
     removeGame,
-    getGamePlayersByGameId,
+    getGameByGameId,
     addPlayerToGame,
     getNextGameID,
-    removeIfPlayerIsAloneInGames
+    removeIfPlayerIsAloneInGames,
+    addCardsToPlayer,
+    getGameByPlayerId
 };

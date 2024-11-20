@@ -1,4 +1,5 @@
 const monoService = require("../monoService");
+const {getGameByPlayerId} = require("../game/games");
 
 function checkAndGetCards(cardIds,userId){
     let cards = []
@@ -13,10 +14,23 @@ function checkAndGetCards(cardIds,userId){
     return cards;
 }
 
+function updateCardState(user, cardId, damage){
+    user.cards.forEach((card) => {
+        if(card.id === cardId){
+            if(card.hp > 0){
+                card.hp = card.hp - damage;
+            }else {
+                user.cards.remove(cardId);
+            }
+        }
+    })
+}
+
 async function getCardById(id) {
     return await monoService.get("/api/card/"+id)
 }
 
 module.exports = {
-    checkAndGetCards
+    checkAndGetCards,
+    updateCardState
 }
