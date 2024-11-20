@@ -1,6 +1,6 @@
-const socketIo = require('socket.io');
-const { addUser, removeUser, getUserSocketId } = require('./connectedUsers');
-const game = require('./game/games');
+const socketIo = require("socket.io");
+const { addUser, removeUser, getUserSocketId } = require("./connectedUsers");
+const game = require("./game/games");
 
 let io = null;
 
@@ -20,24 +20,31 @@ function initSocket(server) {
       console.log(`User connected: ${user_id}`);
 
       socket.on("receivemessage", (json) => {
-        let message = JSON.parse(json);
-        console.log(`Message from ${user_id} to ${message.recipient_id}: ${message.message}`);
+        let userMessage = json.message;
+        console.log(
+          `Message from ${user_id} to ${json.recipient_id}: ${json.message}`,
+        );
 
-        if (message.recipient_id === "all") {
-          io.emit("sendmessage", { sender_id: user_id, message });
+        if (json.recipient_id === "all") {
+          io.emit("sendmessage", { sender_id: user_id, userMessage });
+          console.log("message sent on the send event message");
         } else {
-          const recipientSocketId = getUserSocketId(message.recipient_id);
+          const recipientSocketId = getUserSocketId(json.recipient_id);
+          console.log("the recipient id " + recipientSocketId);
           if (recipientSocketId) {
-            io.to(recipientSocketId).emit("sendmessage", JSON.stringify( { sender_id: user_id, message }));
+            io.to(recipientSocketId).emit(
+              "sendmessage",
+              JSON.stringify({ sender_id: user_id, userMessage }),
+            );
           } else {
-            console.log(`Recipient ${message.recipient_id} not connected.`);
+            console.log(`Recipient ${json.recipient_id} not connected.`);
           }
         }
       });
 
       socket.on("disconnect", () => {
         removeUser(user_id);
-        game.removeIfPlayerIsAloneInGames(user_id)
+        game.removeIfPlayerIsAloneInGames(user_id);
         console.log(`User disconnected: ${user_id}`);
       });
     } else {
@@ -47,15 +54,15 @@ function initSocket(server) {
   });
 }
 
-function getSocketUser(userId){
+function getSocketUser(userId) {
   return io.sockets.sockets.get(getUserSocketId(userId));
 }
 
-function sendMessage(socketId,eventId,message){
-  io.to(socketId).emit(eventId,message);
+function sendMessage(socketId, eventId, message) {
+  io.to(socketId).emit(eventId, message);
 }
 module.exports = {
   initSocket,
   getSocketUser,
-  sendMessage
+  sendMessage,
 };
