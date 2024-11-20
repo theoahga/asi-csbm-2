@@ -1,8 +1,10 @@
 import fetch from 'node-fetch';
 
+const BASE_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:3000/chat';
+
 class ChatService {
     constructor() {
-        this.baseUrl = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:3000/api/users';
+        this.baseUrl = BASE_URL;
     }
 
     /**
