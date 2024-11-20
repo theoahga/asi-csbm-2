@@ -1,4 +1,3 @@
-const {defaults} = require("axios");
 const currentGame = new Map();
 
 
@@ -35,10 +34,12 @@ function getGameByPlayerId(playerId) {
     });
 
     if (games.length === 0) {
-        throw new Error("Player isn't in a game");
+        console.log("Player isn't in a game");
+        return null;
     }
     if (games.length > 1){
-       throw new Error("Player is in few games... Something is wrong!")
+        console.log("Player is in few games... Something is wrong!")
+        return null;
     }
 
     return games[0];
@@ -50,7 +51,7 @@ function isPlayerIdAloneInGame(playerId,gameId){
 }
 
 function removeIfPlayerIsAloneInGames(playerId){
-   let gameIds = getGamesByPlayerId(playerId);
+   let gameIds = getGameByPlayerId(playerId);
    gameIds.forEach(gameId => {
        if(isPlayerIdAloneInGame(playerId,gameId)){
            removeGame(gameId);
