@@ -1,8 +1,8 @@
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
-const socket = require('./Socket');
-const routes = require('./Routes');
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const socket = require("./Socket");
+const routes = require("./Routes");
 
 const app = express();
 const server = http.createServer(app);
