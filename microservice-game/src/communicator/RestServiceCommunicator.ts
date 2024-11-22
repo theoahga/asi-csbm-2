@@ -1,5 +1,5 @@
-class MicroserviceCommunicator  {
-    private _baseUrl: string;
+class RestServiceCommunicator {
+    private readonly _baseUrl: string;
 
     constructor(baseUrl: string) {
         this._baseUrl = baseUrl;

@@ -1,8 +1,8 @@
 import Card from "../model/Card";
 
-const BASE_URL = process.env.BACK_API_BASE_URL || "local";
+const BASE_URL: string = process.env.BACK_API_BASE_URL ?? "http://localhost:8080/api";
 
-class CardCommunicator extends MicroserviceCommunicator{
+class CardCommunicator extends RestServiceCommunicator{
 
     constructor() {
         super(BASE_URL);

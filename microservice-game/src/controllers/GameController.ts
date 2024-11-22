@@ -1,11 +1,15 @@
 import { GameService } from '../services/GameService';
 import PlayerAction from "../model/action/PlayerAction";
+import Game from "../model/Game";
+import GameActionHandler from "../services/GameActionHandler";
 
 class GameController {
     private _gameService: GameService;
+    private _gameActionHandler: GameActionHandler;
 
     constructor() {
         this._gameService = new GameService();
+        this._gameActionHandler = new GameActionHandler(this._gameService);
     }
 
     public async joinPlayer(req : any, res : any) {
@@ -66,12 +70,16 @@ class GameController {
                 return res.status(404).json({ error: "Game not found" });
             }
 
-            await this._gameService.handleAction(action, gameId);
+            await this.handleAction(action);
             return res.status(200).json({ message: "Action processed" });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Internal server error' });
         }
+    }
+
+    async handleAction(action: PlayerAction){
+        await this._gameActionHandler.handleAction(action);
     }
 }
 

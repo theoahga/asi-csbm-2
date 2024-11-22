@@ -63,6 +63,22 @@ class SocketService {
     }
 
     /**
+     * Envoie un message à un utilisateur spécifique sur un message particulier.
+     * @param {string} userId - ID de l'utilisateur cible.
+     * @param {string} event_id - ID de l'event.
+     * @param {string} message - Message à envoyer.
+     * @returns {boolean} Succès ou échec.
+     */
+    sendMessageToUserCustomEvent(userId, event_id, message) {
+        const socket = this.users.get(userId);
+        if (socket) {
+            socket.emit(event_id, message);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Diffuse un message à tous les utilisateurs.
      * @param {string} message - Message à diffuser.
      */

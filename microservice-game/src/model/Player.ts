@@ -1,17 +1,17 @@
 import Card from "./Card";
 
 class Player {
-    private _playerId: string;
+    private _playerId: number;
     private _actionPoints: number;
     private _cards: Card[];
 
-    constructor(playerId: string) {
+    constructor(playerId: number) {
         this._playerId = playerId;
         this._actionPoints = 0;
         this._cards = [];
     }
 
-    get playerId(): string {
+    get playerId(): number {
         return this._playerId;
     }
 
