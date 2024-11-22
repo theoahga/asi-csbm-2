@@ -1,4 +1,4 @@
-const {getGameByGameId} = require("../Games");
+const {getGameByGameId} = require("../Games.js");
 const {sendMessage} = require("../../Socket");
 
 function sendCardsChoiceRequest(gameId) {

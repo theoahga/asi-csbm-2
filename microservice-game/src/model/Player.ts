@@ -1,13 +1,15 @@
 import Card from "./Card";
 
+const ACTIONS_POINTS = 2
+
 class Player {
-    private _playerId: number;
+    private readonly _playerId: number;
     private _actionPoints: number;
     private _cards: Card[];
 
     constructor(playerId: number) {
         this._playerId = playerId;
-        this._actionPoints = 0;
+        this._actionPoints = ACTIONS_POINTS;
         this._cards = [];
     }
 
@@ -29,6 +31,14 @@ class Player {
 
     set cards(value: Card[]) {
         this._cards = value;
+    }
+
+    removeCard(id: number) {
+        this._cards = this._cards.filter(card => card.id !== id);
+    }
+
+    resetActionPoints() {
+        this._actionPoints = ACTIONS_POINTS;
     }
 }
 

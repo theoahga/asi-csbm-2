@@ -28,17 +28,8 @@ class CardService {
         return cards;
     }
 
-    async updateCardState(player: Player, cardId: number, damage: number){
-        for (const card of player.cards) {
-            if(card.id === cardId){
-                let newHp = card.hp - damage;
-                if(newHp > 0){
-                    card.hp = newHp;
-                }else {
-                    player.cards = player.cards.filter(c=> c.id !== card.id );
-                }
-            }
-        }
+    async attack(cardFrom: Card, cardTo: Card){
+        cardTo.hp = cardTo.hp - cardFrom.attack;
     }
 }
 

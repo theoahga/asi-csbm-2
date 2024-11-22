@@ -1,7 +1,7 @@
-const {getGameByGameId, addCardsToPlayer, getGameByPlayerId, removeGame} = require("../Games");
-const {checkAndGetCards, updateCardState} = require("../../back-communication/card/CardService");
-const {sendCardsChoiceRequest, sendGameState, sendAttackTurnRequest, sendMessageToPlayers} = require("./GameCommunication");
-const {updateDeckState, checkDeckState} = require("./GameDeckManager");
+const {getGameByGameId, addCardsToPlayer, getGameByPlayerId, removeGame} = require("../Games.js");
+const {checkAndGetCards, updateCardState} = require("../../back-communication/card/CardService.js");
+const {sendCardsChoiceRequest, sendGameState, sendAttackTurnRequest, sendMessageToPlayers} = require("./GameCommunication.js");
+const {updateDeckState, checkDeckState} = require("./GameDeckManager.js");
 
 const ACTION_POINTS = 2;
 

@@ -80,6 +80,7 @@ class GameController {
 
     async handleAction(action: PlayerAction){
         await this._gameActionHandler.handleAction(action);
+        await this._gameService.notifyGameState(action.gameId);
     }
 }
 

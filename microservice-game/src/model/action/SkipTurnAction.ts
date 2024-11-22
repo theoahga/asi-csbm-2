@@ -4,7 +4,7 @@ import PlayerActionType from "./PlayerActionType";
 const TYPE : PlayerActionType = PlayerActionType.SKIP_TURN;
 
 export class SkipTurnAction extends PlayerAction{
-    constructor(gameId: string, userId: string) {
+    constructor(gameId: string, userId: number) {
         super(TYPE, gameId, userId);
     }
 }
