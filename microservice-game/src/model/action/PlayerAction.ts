@@ -4,13 +4,11 @@ class PlayerAction {
     private readonly _type: PlayerActionType;
     private readonly _gameId: string;
     private readonly _userId: number;
-    private readonly _cardIds: number[];
 
-    constructor(type: PlayerActionType, gameId: string, userId: number, cardIds: number[]) {
+    constructor(type: PlayerActionType, gameId: string, userId: number) {
         this._type = type;
         this._gameId = gameId;
         this._userId = userId;
-        this._cardIds = cardIds;
     }
 
     get type(): PlayerActionType {
@@ -23,10 +21,6 @@ class PlayerAction {
 
     get userId(): number {
         return this._userId;
-    }
-
-    get cardIds(): number[] {
-        return this._cardIds;
     }
 }
 

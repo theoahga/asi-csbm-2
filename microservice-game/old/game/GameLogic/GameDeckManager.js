@@ -1,4 +1,4 @@
-const {getGameByPlayerId} = require("../Games");
+const {getGameByPlayerId} = require("../Games.js");
 
 function updateDeckState(userId){
     let game = getGameByPlayerId(userId);

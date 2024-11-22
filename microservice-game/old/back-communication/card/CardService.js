@@ -1,4 +1,4 @@
-const monoService = require("../MonoFacade");
+const monoService = require("../MonoFacade.js");
 
 function checkAndGetCards(cardIds,userId){
     let cards = []
@@ -27,9 +27,4 @@ function updateCardState(user, cardId, damage){
 
 async function getCardById(id) {
     return await monoService.get("/api/card/"+id)
-}
-
-module.exports = {
-    checkAndGetCards,
-    updateCardState
 }

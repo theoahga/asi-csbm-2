@@ -1,5 +1,5 @@
 const express = require('express');
-const GameManager = require("./game/GameManager");
+const GameManager = require("./game/GameManager.js");
 const router = express.Router();
 
 

@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "node src/app.ts",
+    "dev": "nodemon src/app.ts"
   },
   "type": "module",
   "dependencies": {
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.9.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.1"
   },
   "author": "tclere",
   "license": "MIT"

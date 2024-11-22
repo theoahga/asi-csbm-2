@@ -1,4 +1,5 @@
 import Player from "./Player";
+import Card from "./Card";
 
 class Game {
     private readonly _gameId: string;
@@ -23,6 +24,17 @@ class Game {
         return this._readyPlayerIds.length === this._players.length;
     }
 
+    getCardById(cardId: number): Card | undefined {
+        for (const player of this._players) {
+            const card = player.cards.find(c => c.id === cardId);
+            if (card) {
+                return card;
+            }
+        }
+        return undefined;
+    }
+
+
     get gameId(): string {
         return this._gameId;
     }
@@ -33,6 +45,14 @@ class Game {
 
     set players(value: Player[]) {
         this._players = value;
+    }
+
+    randomPlayer(): Player | undefined {
+        if (this._players.length === 0) {
+            return undefined;
+        }
+        const randomIndex = Math.floor(Math.random() * this._players.length);
+        return this._players[randomIndex];
     }
 }
 

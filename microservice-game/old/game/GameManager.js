@@ -1,6 +1,6 @@
 const { getSocketUser, sendMessage } = require("../Socket");
-const { getNextGameID, getGameByGameId, addGame, addPlayerToGame } = require("./Games");
-const {startGame, handlePlayerAction} = require("./GameLogic/GameActionHandling");
+const { getNextGameID, getGameByGameId, addGame, addPlayerToGame } = require("./Games.js");
+const {startGame, handlePlayerAction} = require("./GameLogic/GameActionHandling.js");
 
 let waitingPlayer = null;
 

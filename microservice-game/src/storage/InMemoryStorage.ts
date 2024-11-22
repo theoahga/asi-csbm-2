@@ -16,7 +16,6 @@ class InMemoryStorage<T> implements IStorage<T> {
     }
 
     async getValues(): Promise<T[]> {
-        // Return all the values stored in the Map as an array
         return Array.from(this.storage.values());
     }
 

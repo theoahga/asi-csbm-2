@@ -20,7 +20,7 @@ class RestServiceCommunicator {
 
             return await response.json();
         } catch (error: any) {
-            console.error('Error in GET request:', error.message);
+            console.error('Error in GET dto:', error.message);
             throw error;
         }
     }
@@ -41,7 +41,7 @@ class RestServiceCommunicator {
 
             return await response.json();
         } catch (error: any) {
-            console.error('Error in POST request:', error.message);
+            console.error('Error in POST dto:', error.message);
             throw error;
         }
     }

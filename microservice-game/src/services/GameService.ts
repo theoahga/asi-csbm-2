@@ -3,6 +3,10 @@ import Game from "../model/Game.js";
 import InMemoryStorage from "../storage/InMemoryStorage";
 import Card from "../model/Card";
 import WebSocketCommunicator from "../communicator/WebSocketCommunicator";
+import CardChoiceMessage from "../communicator/dto/CardChoiceMessage";
+import GameStateMessage from "../communicator/dto/GameStateMessage";
+import FinishMessage from "../communicator/dto/FinishMessage";
+import TurnMessage from "../communicator/dto/TurnMessage";
 
 export class GameService {
     private _gameStorage: IStorage<Game>;
@@ -106,12 +110,53 @@ export class GameService {
     private async requestCardChoice(gameId: string) {
         let game = await this.getGameById(gameId);
         if (game){
-            let cardChoiceRequest = new CardChoiceRequest();
+            let cardChoiceRequest = new CardChoiceMessage();
             for (let player of game.players) {
                 await this._webSocketCommunicator.sendMessage(player.playerId, "game", cardChoiceRequest)
             }
         }else{
             throw new Error("No game found for gameId " + gameId);
+        }
+    }
+
+    async notifyGameState(gameId: string) {
+        let game = await this.getGameById(gameId);
+        if (game){
+            let gameStateMessage = new GameStateMessage(game);
+            for (let player of game.players) {
+                await this._webSocketCommunicator.sendMessage(player.playerId, "game", gameStateMessage)
+            }
+        }else{
+            throw new Error("No game found for gameId " + gameId);
+        }
+    }
+
+    async saveGame(game: Game): Promise<Game>{
+        await this._gameStorage.set(game.gameId, game);
+        return game
+    }
+
+    async isGameFinish(game: Game) {
+        let looser = game.players.find(p => p.cards.length === 0)
+        if(looser){
+            let winner = game.players.find(p => p.playerId !== looser?.playerId);
+            if(winner){
+                let finishMessage: FinishMessage = new FinishMessage(game, winner.playerId , looser.playerId);
+                for (let player of game.players) {
+                    await this._webSocketCommunicator.sendMessage(player.playerId, "game", finishMessage);
+                }
+                return true;
+            } else {
+                throw new Error("It seems there is no winner");
+            }
+        }
+        return false;
+    }
+
+    async nextTurn(game: Game,playerId: number) {
+        let turnMessage: TurnMessage = new TurnMessage(playerId);
+        for (let player of game.players) {
+            await this._webSocketCommunicator.sendMessage(player.playerId, "game", turnMessage);
         }
     }
 }
