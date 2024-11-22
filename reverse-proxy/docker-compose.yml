@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginxrp #rp = reverse proxy
+    volumes:
+      - ./nginx/core.conf:/etc/nginx/conf.d/core.conf
+      - ./nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf
+    
+    ports:
+      - "80:80"
+      
+    build: .
+    links:
+      - chatmicroservice
+      - gamemicroservice
+      - socketmicroservice
+
+  chatmicroservice:
+    image: node:20
+    command: "npm run start"
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+
+  gamemicroservice:
+    image: node:20
+    command: "npm run start"
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+
+  socketmicroservice:
+    image: node:20
+    command: "npm run start"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
