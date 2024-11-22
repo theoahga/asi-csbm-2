@@ -46,3 +46,5 @@ class RestServiceCommunicator {
         }
     }
 }
+
+export default RestServiceCommunicator;
