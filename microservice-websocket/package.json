@@ -1,0 +1,23 @@
+{
+  "name": "microservice-websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "tclere",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "type": "module"
+}
