@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api/chat', chatRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => {
     console.log(`Chat microservice is running on port ${PORT}`);
 });

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 
-import static jakarta.jms.Session.AUTO_ACKNOWLEDGE;
+import static jakarta.jms.Session.CLIENT_ACKNOWLEDGE;
 
 @Configuration
 public class ActiveMQConfig {
@@ -22,7 +22,7 @@ public class ActiveMQConfig {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setConcurrency("1-10");
-        factory.setSessionAcknowledgeMode(AUTO_ACKNOWLEDGE);
+        factory.setSessionAcknowledgeMode(CLIENT_ACKNOWLEDGE);
         return factory;
     }
 }
