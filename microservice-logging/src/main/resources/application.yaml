@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: microservice-logging
+
+  activemq:
+    broker-url: tcp://172.17.0.1:61616
+    user: myuser
+    password: mypwd
+
+message:
+  file: /var/message.log
