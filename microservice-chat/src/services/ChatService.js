@@ -1,10 +1,12 @@
 import fetch from 'node-fetch';
 
 const BASE_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:3000/chat';
+const BASE_SPRING_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:8081/api';
 
 class ChatService {
     constructor() {
         this.baseUrl = BASE_URL;
+        this.springBaseUrl = BASE_SPRING_URL;
     }
 
     /**
@@ -16,8 +18,8 @@ class ChatService {
         try {
             const response = await fetch(`${this.baseUrl}/${userId}/message`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message }),
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message}),
             });
 
             if (!response.ok) {
@@ -32,6 +34,63 @@ class ChatService {
     }
 
     /**
+     * Get the conversation between two persons
+     * @param {string} senderId
+     * @param {string} receiverId
+     * @returns {Promise<any>}
+     */
+    static async getHistory(senderId, receiverId) {
+        try {
+            const response = await fetch(`${BASE_SPRING_URL}/message/conversation/${senderId}/${receiverId}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to get the wanted conversation');
+            }
+
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message || 'Failed to send message to user.');
+        }
+    }
+
+    /**
+     * Saves the message in the history on endpoint /api/chat/create
+     * @param {string} user_id
+     * @param {string} sender_id
+     * @param {string} message
+     * @returns {Promise<void>}
+     */
+    async saveMessageToHistory(user_id, sender_id, message) {
+
+        const payload = {
+            sender: sender_id,
+            receiver: user_id,
+            content: message
+        }
+
+        try {
+            const response = await fetch(`${this.springBaseUrl}/message/create`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Failed to save the message in the history');
+            }
+
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message || 'An unexpected error occurred while saving the message');
+        }
+    }
+
+    /**
      * Diffuse un message à tous les utilisateurs connectés.
      * @param {string} message - Message à diffuser.
      */
@@ -39,8 +98,8 @@ class ChatService {
         try {
             const response = await fetch(`${this.baseUrl}/broadcast`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message }),
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message}),
             });
 
             if (!response.ok) {

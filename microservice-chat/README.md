@@ -35,7 +35,7 @@ npm run dev
 #### 1. **Envoyer un message à un utilisateur spécifique**
 
 - **Méthode** : `POST`
-- **URL** : `/api/chat/:user_id/message`
+- **URL** : `/api/chat/:user_id/:sender_id/message`
 - **Corps de la requête** :
 
   ```json
@@ -96,6 +96,54 @@ http://localhost:4000/api/chat/broadcast
 {
   "status": "Message broadcasted"
 }
+```
+
+---
+
+#### 3. **Récupérer l'historique d'une conversation**
+
+- **Méthode** : `GET`
+- **URL** : `/api/chat/history/:sender_id/:receiver_id`
+
+**Exemple :**
+
+```bash
+curl -X GET -H "Content-Type: application/json" \
+-d '{"message":"Hello everyone!"}' \
+http://localhost:4000/api/chat/history/1/2
+```
+
+**Réponse** :
+
+```json
+[
+  {
+    "id": 1,
+    "receiver": {
+      "id": 1,
+      "login": "testUser",
+      "pwd": "securePassword123",
+      "account": 1500.75,
+      "lastName": "Doe",
+      "surName": "John",
+      "email": "john.doe@example.com",
+      "cardList": []
+    },
+    "sender": {
+      "id": 1,
+      "login": "testUser",
+      "pwd": "securePassword123",
+      "account": 1500.75,
+      "lastName": "Doe",
+      "surName": "John",
+      "email": "john.doe@example.com",
+      "cardList": []
+    },
+    "content": "Test content example.",
+    "creationDate": "2024-11-25",
+    "lastModifiedDate": "2024-11-25"
+  }
+]
 ```
 
 ---
