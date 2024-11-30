@@ -1,22 +1,79 @@
 # asi-csbm-2
 
 ## Sommaire
-1. [**Atelier 2 : Node.js pour une interface de jeux et un chat**](#atelier-2)  
-   1.1. [Avantages de Node.js](#avantages-de-nodejs-pour-une-interface-de-jeux-et-un-chat-entre-utilisateurs)  
-   1.2. [Inconvénients de Node.js](#inconvénients-de-nodejs-pour-une-interface-de-jeux-et-un-chat-entre-utilisateurs)
 
-2. [**Atelier 3 : Docker vs Virtualisation classique**](#atelier-3)  
-   2.1. [Différences entre Docker et la virtualisation classique](#avantages-et-différences-des-containers-docker-vis-à-vis-de-la-virtualisation-classique)  
-   2.2. [Avantages des containers Docker](#avantages-des-containers-docker)  
-   2.3. [Structure des dépôts](#structure-des-dépôts)  
-   2.4. [Configuration Docker](#configuration-docker)  
-   2.5. [CI/CD avec GitHub Actions](#cicd-avec-github-actions)
+1. [**Préambule**](#préambule)
 
-3. [**Annexes**](#annexes)  
-   3.1. [Auteurs](#auteurs)  
-   3.2. [Ressources](#ressources)
+   1.1. [Auteurs](#auteurs)  
+
+   1.2. [Ressources](#ressources) 
+
+   1.3. [Elements réalisés](#elements-réalisés) 
+
+   1.4. [Elements non réalisés](#eléments-non-réalisés)
+
+2. [**Atelier 2 : Node.js pour une interface de jeux et un chat**](#atelier-2)
+
+   2.1. [Avantages de Node.js](#avantages-de-nodejs-pour-une-interface-de-jeux-et-un-chat-entre-utilisateurs)  
+
+   2.2. [Inconvénients de Node.js](#inconvénients-de-nodejs-pour-une-interface-de-jeux-et-un-chat-entre-utilisateurs)
+
+3. [**Atelier 3 : Docker vs Virtualisation classique**](#atelier-3)  
+
+   3.1. [Différences entre Docker et la virtualisation classique](#avantages-et-différences-des-containers-docker-vis-à-vis-de-la-virtualisation-classique)  
+
+   3.2. [Avantages des containers Docker](#avantages-des-containers-docker)  
+
+   3.3. [Structure des dépôts](#structure-des-dépôts)  
+
+   3.4. [Configuration Docker](#configuration-docker)  
+
+   3.5. [CI/CD avec GitHub Actions](#cicd-avec-github-actions)
 
 ---
+
+---
+
+## Préambule
+
+--- 
+
+### Auteurs
+
+- **Théo Clere**, **Sandro Spina**, **Maxime Brossard**, **Ceif Edine Marouani**  
+  Étudiants en dernière année à CPE Lyon, filière 5IRC.
+
+---
+
+### Ressources
+
+- **Dépôt principal :** [ASI-CSBM](https://github.com/SandroSpina698/ASI-CSBM) (branche atelier2)
+- **Dépôt secondaire :** [ASI-CSBM-2](https://github.com/theoahga/asi-csbm-2) (branche main)
+- **Docker Hub :** [theoahga](https://hub.docker.com/u/theoahga)
+
+---
+
+### Elements réalisés
+
+- Avantages et inconvénients de Node.js (Maxime) 
+- Prémière ébauche du serveur websocket/chat (Théo)
+- Mise à jour de projet front pour accueillir le chat (Ceif & Sandro)
+- Conception et réalisation du backend node.js du système de jeux (Théo & Maxime)
+- Refactor du serveur node.js et subdivision en 3 micro-service: websocket, chat, game (Théo)
+- Documentation des micro-services chat et websocket (Théo)
+- Diagramme de séquences des interactions du système de jeux (Théo)
+- Gestion de l'historisation de conversations du chat back (Sandro)
+- Application spring permettant de logger les messages circulant sur l'ESB (Théo)
+- Avantages et différences de docker vs Virtualisation classique (Théo)
+- Création d'un dockerFile pour chacun des micro-service (Théo)
+- Modification du docker-compose existant (atelier 1) + harmonisation du build (Théo)
+- Github actions de build et push docker sur DockerHub (Théo)
+- Documentation atelier 3 (Théo)
+
+### Eléments non réalisés
+- Mise en place d'un proxy global (Sandro a commencé) 
+- Plateforme de jeux front ...
+    - donc le back node.js micro-service game n'a pas été testé
 
 ---
 ## Atelier 2
@@ -40,7 +97,11 @@
 
 ![archi-schema-2.drawio.png](doc%2Farchi-schema-2.drawio.png)
 
+Le microservice WebSocket est essentiellement utilisé pour répondre au client. Ce dernier n'interagira avec le service WebSocket qu'au moment de sa connexion.
 
+## Interactions game
+
+![game-schema.drawio.png](doc/game-schema.drawio.png)
 
 ---
 
@@ -106,33 +167,13 @@
 
 ### Architecture Docker
 
+Nous avions opté pour une architecture simplifiée, en isolant chaque composant de notre système dans un conteneur distinct. 
 ![docker.drawio.png](doc%2Fdocker.drawio.png)
 ---
 
 ### CI/CD avec GitHub Actions
 
 - Les pipelines CI/CD construisent et publient les images Docker sur Docker Hub.
-- [Exemple de workflow CI/CD](#cicd-avec-github-actions) pour `ASI-CSBM-2`.
+- [Exemple de workflow CI/CD](.github/workflows/docker-image.yml) pour `ASI-CSBM-2`.
 
 
-
----
-
----
-
-## Annexes
-
---- 
-
-### Auteurs
-
-- **Théo Clere**, **Sandro Spina**, **Julien Buc**, **Ceif Edine Marouani**  
-  Étudiants en dernière année à CPE Lyon, filière 5IRC.
-
----
-
-### Ressources
-
-- **Dépôt principal :** [ASI-CSBM](https://github.com/SandroSpina698/ASI-CSBM)
-- **Dépôt secondaire :** [ASI-CSBM-2](https://github.com/theoahga/asi-csbm-2)
-- **Docker Hub :** [theoahga](https://hub.docker.com/u/theoahga)  
