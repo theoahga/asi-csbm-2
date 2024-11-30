@@ -1,4 +1,4 @@
-class RestServiceCommunicator {
+export class RestServiceCommunicator {
     private readonly _baseUrl: string;
 
     constructor(baseUrl: string) {
