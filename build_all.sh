@@ -3,8 +3,10 @@
 set -e
 
 IMAGE_LIST=(
+  "microservice-chat:1.0,./microservice-chat"
   "microservice-game:1.0,./microservice-game"
   "microservice-logging:1.0,./microservice-logging"
+  "microservice-websocket:1.0,./microservice-websocket"
 )
 
 for ITEM in "${IMAGE_LIST[@]}"; do
