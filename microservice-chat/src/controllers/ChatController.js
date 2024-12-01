@@ -5,7 +5,7 @@ class ChatController {
      * Envoie un message à un utilisateur spécifique.
      */
     static async sendMessageToUser(req, res) {
-        const { user_id, sender_id } = req.params;
+        const { receiver_id, sender_id } = req.params;
         const { message } = req.body;
 
         if (!message) {
@@ -17,10 +17,10 @@ class ChatController {
         }
 
         try {
-            const result = await chatService.sendMessageToUser(user_id, message);
+            const result = await chatService.sendMessageToUser(receiver_id, sender_id, message);
             res.json(result);
 
-            await chatService.saveMessageToHistory(user_id, sender_id, message);
+            await chatService.saveMessageToHistory(receiver_id, sender_id, message);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -60,6 +60,19 @@ class ChatController {
                 message: message,
                 sender_id: sender_id
             });            
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+
+    /**
+     * Envoie un message à un utilisateur spécifique.
+     */
+    static async getConnectedUsers(req, res) {
+        try {
+            const result = await chatService.getConnectedUsers();
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });

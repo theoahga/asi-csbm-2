@@ -11,11 +11,10 @@ class SocketService {
     this.io = io;
     io.on("connection", (socket) => {
       console.log(`New client connected: ${socket.id}`);
-
-      // Enregistrer un utilisateur
       socket.on("register", (user_id) => {
+        this.user_id = user_id
         this.users.set(user_id, socket);
-        console.log(`User registered: ${user_id}`);
+        console.log(`User registered: ${this.user_id}`);
       });
 
       // Déconnexion
@@ -49,17 +48,29 @@ class SocketService {
 
   /**
    * Envoie un message à un utilisateur spécifique.
-   * @param {string} userId - ID de l'utilisateur cible.
+   * @param {string} receiverId - ID de l'utilisateur cible.
    * @param {string} message - Message à envoyer.
    * @returns {boolean} Succès ou échec.
    */
-  sendMessageToUser(userId, message) {
-    const socket = this.users.get(userId);
+  sendMessageToUser(receiver_id, sender_id,message) {
+    console.log("ETAPE 1 ")
+    const socket = this.users.get(parseInt(receiver_id));
+    console.log("ETAPE 2 ")
+    console.log("socket array : ",socket)
+    console.log("users gros : ",this.users)
+    const messageObject = {
+      content: message.message, // Le texte du message
+      sender_id: sender_id, // L'ID de l'envoyeur
+      receiver_id:receiver_id,
+      creationDate: new Date().toISOString(), // La date de création
+    };
     if (socket) {
-      console.log("Message : ", message, " par ", userId);
-      socket.emit("message", message);
+      console.log("Message : ", message, " par ", receiver_id);
+      socket.emit("message", messageObject);
       return true;
     }
+    console.log("PAS DE CHAUSSETTE ")
+
     return false;
   }
 
@@ -93,17 +104,19 @@ class SocketService {
    */
   broadcastMessage(message) {
     const messageObject = {
-      content: message.message,           // Le texte du message
-      sender_id: message.sender_id,       // L'ID de l'envoyeur
-      creationDate: new Date().toISOString() // La date de création
+      content: message.message, 
+      sender_id: message.sender_id, 
+      receiver_id:null,
+      creationDate: new Date().toISOString(), 
+      
     };
 
     console.log("Broadcasting message:", messageObject);
 
     this.users.forEach((socket) => {
-      socket.emit("message", messageObject);
+        socket.emit("message", messageObject);
     });
-}
+  }
 }
 
 export default new SocketService();

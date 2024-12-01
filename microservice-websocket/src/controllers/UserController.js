@@ -7,7 +7,7 @@ class UserController {
   }
 
   static sendMessageToUser(req, res) {
-    const { user_id } = req.params;
+    const { receiver_id ,sender_id} = req.params;
     const { message } = req.body;
     console.log("MSG WEBSOCKET ",message)
 
@@ -15,7 +15,7 @@ class UserController {
       return res.status(400).json({ error: "Message content is required" });
     }
 
-    const success = socketService.sendMessageToUser(user_id, message);
+    const success = socketService.sendMessageToUser(receiver_id,sender_id, message);
     if (success) {
       res.json({ status: "Message sent" });
     } else {

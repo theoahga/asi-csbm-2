@@ -14,9 +14,9 @@ class ChatService {
      * @param {string} userId - ID de l'utilisateur cible.
      * @param {string} message - Message à envoyer.
      */
-    static async sendMessageToUser(userId, message) {
+    static async sendMessageToUser(receiver_id,sender_id, message) {
         try {
-            const response = await fetch(`${BASE_URL}/${userId}/message`, {
+            const response = await fetch(`${BASE_URL}/${receiver_id}/${sender_id}/message`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({message}),
@@ -72,6 +72,8 @@ class ChatService {
         }
 
         try {
+            console.log("ecbpv")
+
             const response = await fetch(`${this.springBaseUrl}/message/create`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -79,9 +81,11 @@ class ChatService {
             });
 
             if (!response.ok) {
+                console.log("Crash of saving message")
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.error || 'Failed to save the message in the history');
             }
+            console.log("No crash of saving message")
 
             return await response.json();
         } catch (error) {
@@ -100,6 +104,7 @@ class ChatService {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({message}),
             });
+            console.log("ALLALA ",JSON.stringify({message}))
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -109,6 +114,23 @@ class ChatService {
             return await response.json();
         } catch (error) {
             throw new Error(error.message || 'Failed to broadcast message.');
+        }
+    }
+
+     /**
+     * .
+     */
+     static async getConnectedUsers() {
+        try {
+            const response = await fetch(`${BASE_URL}/`);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to get users.');
+            }
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message || 'Failed to get users.');
         }
     }
 }
