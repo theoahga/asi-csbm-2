@@ -69,11 +69,16 @@
 - Modification du docker-compose existant (atelier 1) + harmonisation du build (Théo)
 - Github actions de build et push docker sur DockerHub (Théo)
 - Documentation atelier 3 (Théo)
+- Mise en place d'une salle d'attente pour les parties (Maxime) : https://youtu.be/nzCoGTGznd4
+
+### Eléments en cours
+- Deboguage et tests du micro-services web-socket (Maxime)
+- Deboguage et tests du micro-services game (Maxime)
 
 ### Eléments non réalisés
 - Mise en place d'un proxy global (Sandro a commencé) 
-- Plateforme de jeux front ...
-    - donc le back node.js micro-service game n'a pas été testé
+- Plateforme de jeux front (Maxime à commencé l'arène de jeu)
+    - Back Node.JS game et web-socket encore en cours de déboguage (Maxime)
 
 ---
 ## Atelier 2
