@@ -71,6 +71,8 @@
 - Documentation atelier 3 (Théo)
 - Mise en place d'une salle d'attente pour les parties (repo: ASI-CSBM branch : develop-game-front)(Maxime) : https://youtu.be/nzCoGTGznd4
 - Chat publique et chat privée (repo: ASI-CSBM branch : atelier2) (Sandro et Ceif) https://youtu.be/601OeOakyLI
+- Historisation des messages (Sandro)
+
 
 ### Eléments en cours
 - Deboguage et tests du micro-services web-socket (repo: asi-csbm-2 branch: fix/micro-service-error) (Maxime)
