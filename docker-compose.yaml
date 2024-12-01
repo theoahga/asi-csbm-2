@@ -47,11 +47,27 @@ services:
     networks:
       - my-network
 
+  microservice-chat:
+    image: theoahga/microservice-chat:1.0
+    container_name: microservice-chat
+    ports:
+      - "4000:4000"
+    networks:
+      - my-network
+
   microservice-game:
     image: theoahga/microservice-game:1.0
     container_name: microservice-game
     ports:
       - "4003:4003"
+    networks:
+      - my-network
+
+  microservice-websocket:
+    image: theoahga/microservice-websocket:1.0
+    container_name: microservice-websocket
+    ports:
+      - "3000:3000"
     networks:
       - my-network
 
