@@ -21,7 +21,6 @@ class GameController {
         try {
             console.log(`User ${userId} is trying to find a game`);
             const gameId = await this._gameService.findWithOnePlayer();
-
             if (gameId) {
                 await this._gameService.addPlayerToGame(gameId, userId);
                 return res.status(200).json({ message: `User ${userId} has joined game ${gameId}` });

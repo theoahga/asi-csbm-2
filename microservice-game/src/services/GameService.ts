@@ -21,6 +21,7 @@ export class GameService {
         if(!await this.findGameForPlayer(playerId)){
             let gameId: string = await this.getNextGameID();
             let game: Game = new Game(gameId);
+            game.addPlayer(playerId);
             await this._gameStorage.set(gameId, game);
             return gameId;
         }
@@ -52,7 +53,7 @@ export class GameService {
 
     async addPlayerToGame(gameId: string, playerId: number) {
         let game = await this.getGameById(gameId);
-        if (game && game.players.length === 2 && !game.players.find(player => player.playerId === playerId)) {
+        if (game && game.players.length === 1 && !game.players.find(player => player.playerId === playerId)) {
             game.addPlayer(playerId);
             await this._gameStorage.set(gameId, game);
             await this.requestCardChoice(gameId);

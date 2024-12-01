@@ -10,9 +10,14 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: '*', // Autorise toutes les origines (ou spécifiez les URL autorisées)
+        methods: ['GET', 'POST'], // Méthodes HTTP autorisées
+    },
+});
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use('/api/users', userRoutes);
 
 socketService.init(io);

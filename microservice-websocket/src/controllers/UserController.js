@@ -24,7 +24,7 @@ class UserController {
 
     static sendMessageToUserCustomEvent(req, res) {
         const { user_id , event_id } = req.params;
-        const { message } = req.body;
+        const message = req.body;
 
         if (!message) {
             return res.status(400).json({ error: 'Message content is required' });
