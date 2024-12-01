@@ -52,14 +52,10 @@ class SocketService {
    * @param {string} message - Message à envoyer.
    * @returns {boolean} Succès ou échec.
    */
-  sendMessageToUser(receiver_id, sender_id,message) {
-    console.log("ETAPE 1 ")
+  sendMessageToUser(receiver_id, sender_id, message) {
     const socket = this.users.get(parseInt(receiver_id));
-    console.log("ETAPE 2 ")
-    console.log("socket array : ",socket)
-    console.log("users gros : ",this.users)
     const messageObject = {
-      content: message.message, // Le texte du message
+      content: message, // Le texte du message
       sender_id: sender_id, // L'ID de l'envoyeur
       receiver_id:receiver_id,
       creationDate: new Date().toISOString(), // La date de création
@@ -69,7 +65,6 @@ class SocketService {
       socket.emit("message", messageObject);
       return true;
     }
-    console.log("PAS DE CHAUSSETTE ")
 
     return false;
   }

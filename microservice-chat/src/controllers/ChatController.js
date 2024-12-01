@@ -20,7 +20,10 @@ class ChatController {
             const result = await chatService.sendMessageToUser(receiver_id, sender_id, message);
             res.json(result);
 
-            await chatService.saveMessageToHistory(receiver_id, sender_id, message);
+            if (receiver_id) {
+                console.log("debug", "sur le point de save " + receiver_id + " " + sender_id + " " + message)
+                await chatService.saveMessageToHistory(receiver_id, sender_id, message);
+            }
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -38,6 +41,7 @@ class ChatController {
 
         try {
             const result = await chatService.getHistory(sender_id, receiver_id);
+            console.log(result);
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });

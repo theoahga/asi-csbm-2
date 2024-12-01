@@ -71,21 +71,19 @@ class ChatService {
             content: message
         }
 
-        try {
-            console.log("ecbpv")
+        console.log(payload);
 
-            const response = await fetch(`${this.springBaseUrl}/message/create`, {
+        try {
+            const response = await fetch(`${BASE_SPRING_URL}/message/create`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
-                console.log("Crash of saving message")
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.error || 'Failed to save the message in the history');
             }
-            console.log("No crash of saving message")
 
             return await response.json();
         } catch (error) {
