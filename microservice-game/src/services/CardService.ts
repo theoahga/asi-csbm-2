@@ -15,7 +15,7 @@ class CardService {
         for (const cardId of cardIds) {
             let card = await this._CardCommunicator.getCardById(cardId);
             if (card){
-                if(card.userId === userId){
+                if(card.userId === parseInt(userId,10)){
                     cards.push(card);
                 }else{
                     throw new Error("The selected card is not yours")

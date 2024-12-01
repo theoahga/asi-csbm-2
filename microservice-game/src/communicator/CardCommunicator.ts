@@ -1,7 +1,7 @@
 import Card from "../model/Card";
 import RestServiceCommunicator from "./RestServiceCommunicator";
 
-const BASE_URL: string = process.env.BACK_API_BASE_URL ?? "http://localhost:8080/api";
+const BASE_URL: string = process.env.BACK_API_BASE_URL ?? "http://localhost:8081/api";
 
 class CardCommunicator extends RestServiceCommunicator{
 

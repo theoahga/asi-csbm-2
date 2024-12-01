@@ -23,10 +23,10 @@ class GameController {
             const gameId = await this._gameService.findWithOnePlayer();
             if (gameId) {
                 await this._gameService.addPlayerToGame(gameId, userId);
-                return res.status(200).json({ message: `User ${userId} has joined game ${gameId}` });
+                return res.status(200).json({ message: `User ${userId} has joined game ${gameId}`, gameId: gameId });
             } else {
                 let newGameId = await this._gameService.createGame(userId);
-                return res.status(201).json({ message: `User ${userId} has created a new game with ID ${newGameId}` });
+                return res.status(201).json({ message: `User ${userId} has created a new game with ID ${newGameId}`, gameId: newGameId });
             }
         } catch (error) {
             console.error(error);

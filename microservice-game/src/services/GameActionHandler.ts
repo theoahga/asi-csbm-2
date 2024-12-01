@@ -22,10 +22,13 @@ class GameActionHandler{
         switch (action.type) {
             case PlayerActionType.CARDS_CHOICE:
                 await this.handleCardChoice(action);
+                break;
             case PlayerActionType.ATTACK:
                 await this.handleAttack(action);
+                break;
             case PlayerActionType.SKIP_TURN:
                 await this.handleSkipTurn(action);
+                break;
         }
     }
 
