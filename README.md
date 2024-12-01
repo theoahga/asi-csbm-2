@@ -70,13 +70,14 @@
 - Github actions de build et push docker sur DockerHub (Théo)
 - Documentation atelier 3 (Théo)
 - Mise en place d'une salle d'attente pour les parties (repo: ASI-CSBM branch : develop-game-front )(Maxime) : https://youtu.be/nzCoGTGznd4
+- Chat publique et chat privée (Sandro et Ceif) https://youtu.be/601OeOakyLI
 
 ### Eléments en cours
 - Deboguage et tests du micro-services web-socket (repo: asi-csbm-2 branch: fix/micro-service-error) (Maxime)
 - Deboguage et tests du micro-services game (repo: asi-csbm-2 branch: fix/micro-service-error) (Maxime)
 
 ### Eléments non réalisés
-- Mise en place d'un proxy global (Sandro a commencé) 
+- Mise en place d'un proxy global (Sandro a commencé, fichier de conf terminée) 
 - Plateforme de jeux front (Maxime à commencé l'arène de jeu) (repo: ASI-CSBM branch : develop-game-front )
     - Back Node.JS game et web-socket encore en cours de déboguage (Maxime)
 
