@@ -49,13 +49,17 @@ class ChatController {
      */
     static async broadcastMessage(req, res) {
         const { message } = req.body;
+        const sender_id = req.body.sender_id; 
 
         if (!message) {
             return res.status(400).json({ error: 'Message content is required.' });
         }
 
         try {
-            const result = await chatService.broadcastMessage(message);
+            const result = await chatService.broadcastMessage({
+                message: message,
+                sender_id: sender_id
+            });            
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });

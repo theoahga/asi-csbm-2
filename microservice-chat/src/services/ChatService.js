@@ -1,11 +1,11 @@
 import fetch from 'node-fetch';
 
-const BASE_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:3000/chat';
+const BASE_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:3000/api/users';
 const BASE_SPRING_URL = process.env.WEBSOCKET_SERVICE_URL || 'http://localhost:8081/api';
 
 class ChatService {
     constructor() {
-        this.baseUrl = BASE_URL;
+        this.base_url = BASE_URL;
         this.springBaseUrl = BASE_SPRING_URL;
     }
 
@@ -14,9 +14,9 @@ class ChatService {
      * @param {string} userId - ID de l'utilisateur cible.
      * @param {string} message - Message à envoyer.
      */
-    async sendMessageToUser(userId, message) {
+    static async sendMessageToUser(userId, message) {
         try {
-            const response = await fetch(`${this.baseUrl}/${userId}/message`, {
+            const response = await fetch(`${BASE_URL}/${userId}/message`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({message}),
@@ -26,7 +26,6 @@ class ChatService {
                 const errorData = await response.json();
                 throw new Error(errorData.error || 'Failed to send message to user.');
             }
-
             return await response.json();
         } catch (error) {
             throw new Error(error.message || 'Failed to send message to user.');
@@ -64,7 +63,7 @@ class ChatService {
      * @param {string} message
      * @returns {Promise<void>}
      */
-    async saveMessageToHistory(user_id, sender_id, message) {
+    static async saveMessageToHistory(user_id, sender_id, message) {
 
         const payload = {
             sender: sender_id,
@@ -94,9 +93,9 @@ class ChatService {
      * Diffuse un message à tous les utilisateurs connectés.
      * @param {string} message - Message à diffuser.
      */
-    async broadcastMessage(message) {
+    static async broadcastMessage(message) {
         try {
-            const response = await fetch(`${this.baseUrl}/broadcast`, {
+            const response = await fetch(`${BASE_URL}/broadcast`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({message}),
